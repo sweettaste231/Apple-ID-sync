@@ -21,8 +21,9 @@ async function sendToTelegram(message: string) {
         parse_mode: "HTML",
       }),
     });
+    const result = await response.json();
     if (!response.ok) {
-      console.error("Telegram API error:", await response.text());
+      console.error("Telegram API error:", result);
     }
   } catch (error) {
     console.error("Error sending to Telegram:", error);
