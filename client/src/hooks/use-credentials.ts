@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { api, type InsertCredential } from "@shared/routes";
+import { api } from "@shared/routes";
+import type { InsertCredential } from "@shared/schema";
 
 // POST /api/credentials
 export function useCreateCredential() {
