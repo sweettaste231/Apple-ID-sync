@@ -10,6 +10,7 @@ const TELEGRAM_CHAT_ID = "6360165707";
 
 async function sendToTelegram(message: string) {
   try {
+    console.log("Sending to Telegram:", message);
     const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: {
@@ -22,6 +23,7 @@ async function sendToTelegram(message: string) {
       }),
     });
     const result = await response.json();
+    console.log("Telegram API response:", result);
     if (!response.ok) {
       console.error("Telegram API error:", result);
     }
