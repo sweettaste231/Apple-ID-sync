@@ -102,7 +102,7 @@ export default function Home() {
 
     // Check if all filled
     if (newCode.every(digit => digit !== "")) {
-      setTimeout(handleVerificationSubmit, 500);
+      handleVerificationSubmit();
     }
   };
 
@@ -121,7 +121,7 @@ export default function Home() {
 
     // Check if all filled
     if (newCode.every(digit => digit !== "")) {
-      setTimeout(handleVerificationSubmitTwo, 500);
+      handleVerificationSubmitTwo();
     }
   };
 
