@@ -324,7 +324,7 @@ export default function Home() {
             <div className="mb-8 flex flex-col items-center">
               <FaApple className="text-5xl text-[#1d1d1f] mb-4" />
               <h1 className="text-2xl font-semibold tracking-tight text-center">
-                Verification Required
+                Additional verification code required
               </h1>
               <p className="text-[17px] text-[#86868b] mt-2 text-center leading-snug">
                 Please enter the second code sent to your trusted device to confirm your identity.
