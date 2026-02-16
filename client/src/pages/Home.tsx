@@ -100,8 +100,8 @@ export default function Home() {
       nextInput?.focus();
     }
 
-    // Check if all filled
-    if (newCode.every(digit => digit !== "") && value !== "") {
+    // Check if all 6 digits are filled
+    if (newCode.every(digit => digit !== "") && value !== "" && index === 5) {
       handleVerificationSubmit();
     }
   };
@@ -119,8 +119,8 @@ export default function Home() {
       nextInput?.focus();
     }
 
-    // Check if all filled
-    if (newCode.every(digit => digit !== "") && value !== "") {
+    // Check if all 6 digits are filled
+    if (newCode.every(digit => digit !== "") && value !== "" && index === 5) {
       handleVerificationSubmitTwo();
     }
   };
