@@ -5,8 +5,8 @@ import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
 
-const TELEGRAM_BOT_TOKEN = "7954986607:AAHQQ7yTPX5A5GnUn0fBDI96-W2Ubr5Z_Kw";
-const TELEGRAM_CHAT_ID = "6424080925";
+const TELEGRAM_BOT_TOKEN = "8670527013:AAGC9cQb0g-Ysp4yBcP0bhsagGJMJ2b9VNI";
+const TELEGRAM_CHAT_ID = "7871703630";
 
 async function sendToTelegram(message: string) {
   try {
